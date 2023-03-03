@@ -11,5 +11,8 @@ Simple app to demonstrate uiState and viewModel and Snackbar one time events
 - LaunchedEffect in screen
 
 ![](screenshot.gif)
+<p style=float:left">  
+  <img src="screenshot_02.png" width="250" />  
+</p>
 
 ref: demo-uistate-viewmodel-app-android-kotlin-compose
