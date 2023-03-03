@@ -1,7 +1,7 @@
 package com.lixoten.demoviewmodel
 
 import androidx.lifecycle.ViewModel
-import com.lixoten.demoviewmodel.ui.theme.AppUiState
+import com.lixoten.demoviewmodel.ui.AppUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

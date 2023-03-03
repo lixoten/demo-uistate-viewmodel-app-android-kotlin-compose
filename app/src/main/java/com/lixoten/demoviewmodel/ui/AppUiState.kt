@@ -1,4 +1,4 @@
-package com.lixoten.demoviewmodel.ui.theme
+package com.lixoten.demoviewmodel.ui
 
 data class AppUiState(
     val foo: String = "",

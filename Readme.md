@@ -3,6 +3,7 @@ Simple app to demonstrate uiState and viewModel
 
 - TextField for foo_name
 - One Button for counter
+- no dependency injection
 
 ![](screenshot.gif)
 
