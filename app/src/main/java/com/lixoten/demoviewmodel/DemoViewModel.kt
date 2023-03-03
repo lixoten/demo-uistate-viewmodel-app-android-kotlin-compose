@@ -1,15 +1,19 @@
 package com.lixoten.demoviewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.lixoten.demoviewmodel.ui.AppUiState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 class DemoViewModel: ViewModel() {
     val _uiState = MutableStateFlow<AppUiState>(AppUiState())
     val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
+
+    // what is eventFlow for? Events that are not really state..One time events like snackbar
+    // one time event snackbar
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     fun updateFoo(foo: String) {
         _uiState.update {currentState ->
@@ -27,5 +31,19 @@ class DemoViewModel: ViewModel() {
                 counter = _uiState.value.counter.inc()
             )
         }
+        // one time event snackbar
+        viewModelScope.launch {
+            _eventFlow.emit(
+                UiEvent.ShowSnackbar(
+                    message = "The current counter is: ${uiState.value.counter}"
+                )
+            )
+        }
+    }
+
+    // one time event snackbar
+    sealed class UiEvent{
+        data class ShowSnackbar(val message: String): UiEvent()
+        // object SaveNote: UiEvent()
     }
 }

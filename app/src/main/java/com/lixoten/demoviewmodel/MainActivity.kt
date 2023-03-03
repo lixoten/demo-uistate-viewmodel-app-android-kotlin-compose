@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lixoten.demoviewmodel.ui.theme.Purple700
 import com.lixoten.demoviewmodel.ui.theme.DemoViewModelTheme
+import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,32 +60,53 @@ fun DemoScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    val scaffoldState = rememberScaffoldState()
+
     //var foo by remember { mutableStateOf("") }
     //var counter by remember { mutableStateOf(0) }
-    Column (
-        modifier = modifier.padding(16.dp)
+
+    // one time event snackbar
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when(event) {
+                is DemoViewModel.UiEvent.ShowSnackbar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.message
+                    )
+                }
+            }
+        }
+    }
+
+    Scaffold(
+        scaffoldState = scaffoldState
     ) {
-        FooTextField(
-           foo = uiState.foo,
-           onFooChanged = { viewModel.updateFoo(it) }
-        )
 
-        Divider(thickness = 4.dp, color = Purple700, modifier = Modifier.padding(16.dp))
+        Column (
+            modifier = modifier.padding(it).padding(16.dp)
+        ) {
+            FooTextField(
+                foo = uiState.foo,
+                onFooChanged = { viewModel.updateFoo(it) }
+            )
 
-        ClickMe(
-            onClickMe = { viewModel.incrementCounter() }
-        )
+            Divider(thickness = 4.dp, color = Purple700, modifier = Modifier.padding(16.dp))
 
-        Divider(thickness = 4.dp, color = Purple700, modifier = Modifier.padding(16.dp))
+            ClickMe(
+                onClickMe = { viewModel.incrementCounter() }
+            )
 
-        Text(
-            "Entered value foo: ${uiState.foo}",
-            style = MaterialTheme.typography.body1
-        )
-        Text(
-            "Clicked Counter: ${uiState.counter}",
-            style = MaterialTheme.typography.body1
-        )
+            Divider(thickness = 4.dp, color = Purple700, modifier = Modifier.padding(16.dp))
+
+            Text(
+                "Entered value foo: ${uiState.foo}",
+                style = MaterialTheme.typography.body1
+            )
+            Text(
+                "Clicked Counter: ${uiState.counter}",
+                style = MaterialTheme.typography.body1
+            )
+        }
     }
 }
 
@@ -97,7 +119,7 @@ fun FooTextField(
         TextField(
             value = foo,
             onValueChange = onFooChanged,
-            label = { Text(text = "Enter a Value)") }
+            label = { Text(text = "Enter a Value") }
         )
     }
 }
