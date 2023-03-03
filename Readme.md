@@ -5,7 +5,10 @@ Simple app to demonstrate uiState and viewModel and Snackbar one time events
 - One Button for counter
 - no dependency injection
 
-Snackbar one time event set in view model
+### Display Snackbar
+- Added Scaffold
+- Snackbar one time event set in view model
+- LaunchedEffect in screen
 
 ![](screenshot.gif)
 

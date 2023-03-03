@@ -81,7 +81,6 @@ fun DemoScreen(
     Scaffold(
         scaffoldState = scaffoldState
     ) {
-
         Column (
             modifier = modifier.padding(it).padding(16.dp)
         ) {
